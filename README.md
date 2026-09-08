@@ -138,7 +138,7 @@ one individually; this table is the short version.
 | Vocabulary size, matrix density, rows per split | `data/features/feature_manifest.json` (rebuilt by `dvc repro`, not committed) | `python -m tweet_emotion.features` (stage `features`) |
 | Where the CSV came from (`fetched_from`), rows read, label counts, duplicate texts in the full file and dropped from the kept rows, rows and positive rate per split | `data/raw/fetch_manifest.json` (rebuilt by `dvc repro`, not committed; copied into the [data card](data/DATA_CARD.md)) | `python -m tweet_emotion.ingest` (stage `ingest`) |
 
-CI run that reproduced these numbers: [todo: link the first green Actions run].
+CI run that reproduced these numbers: [Actions, run 34285294694](https://github.com/Zulqarnain-10/tweet-emotion-pipeline/actions/runs/34285294694).
 
 ## Stack
 

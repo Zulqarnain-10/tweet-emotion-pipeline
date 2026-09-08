@@ -138,7 +138,7 @@ require accuracy and ROC-AUC to be within 1e-4 of `reports/metrics.json` instead
 
 Badge: [![CI](https://github.com/Zulqarnain-10/tweet-emotion-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/Zulqarnain-10/tweet-emotion-pipeline/actions/workflows/ci.yml)
 
-CI run: [todo: link the first green Actions run]
+CI run: [Actions, run 34285294694](https://github.com/Zulqarnain-10/tweet-emotion-pipeline/actions/runs/34285294694)
 
 The README block itself is checked by `python -m tweet_emotion.sync_readme --check`, which exits
 1 when the rendered block differs from the file. Run it locally before committing; CI's `test`
