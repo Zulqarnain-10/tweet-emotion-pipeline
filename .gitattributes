@@ -1,0 +1,20 @@
+* text=auto
+*.sh text eol=lf
+Dockerfile text eol=lf
+Makefile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.toml text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.joblib binary
+*.npz binary
+*.png binary
+
+# The source CSV must stay byte-identical so its sha256 in params.yaml keeps matching.
+data/source/*.csv -text

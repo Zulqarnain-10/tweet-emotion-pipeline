@@ -1,0 +1,42 @@
+{
+  "presets": [
+    {
+      "id": "clear_happiness",
+      "title": "Clear happiness",
+      "text": "Good morning, to all the mommies happy mothers day.  Now I am off the pull the cats tail.  I know she likes it",
+      "label": "happiness",
+      "description": "Among readable held-out tweets, the one the model is most sure is happiness.",
+      "probability_happiness": 0.9814,
+      "tweet_id": 1753757494
+    },
+    {
+      "id": "clear_sadness",
+      "title": "Clear sadness",
+      "text": "I'm sick!  it sucks! IM me! ohbabayy33",
+      "label": "sadness",
+      "description": "Among readable held-out tweets, the one the model is most sure is sadness.",
+      "probability_happiness": 0.0082,
+      "tweet_id": 1960512103
+    },
+    {
+      "id": "close_call",
+      "title": "Close call",
+      "text": "is pumped and bummed all at the same time.......",
+      "label": "sadness",
+      "description": "Among readable held-out tweets, the one whose score sits closest to the decision threshold.",
+      "probability_happiness": 0.5,
+      "tweet_id": 1962410294
+    },
+    {
+      "id": "model_miss",
+      "title": "Model miss",
+      "text": "Happy Mother's Day MM mums!!!! hope you all have a lovely day  #mamam",
+      "label": "sadness",
+      "description": "Among readable held-out tweets, the one the model gets wrong with the most confidence.",
+      "probability_happiness": 0.9636,
+      "tweet_id": 1751396312
+    }
+  ],
+  "chosen_by": "model scores on the held-out test split",
+  "model_version": "0.1.0+unknown"
+}

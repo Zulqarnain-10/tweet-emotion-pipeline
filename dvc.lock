@@ -1,0 +1,338 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m tweet_emotion.ingest
+    deps:
+    - path: data/source/tweet_emotions.csv
+      hash: md5
+      md5: 378e50a49c97277f1841a684687c2020
+      size: 3768210
+    - path: src/tweet_emotion/ingest.py
+      hash: md5
+      md5: a637bc71281508f9b203ffacb4a6046a
+      size: 13427
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    params:
+      params.yaml:
+        data:
+          url: 
+            https://raw.githubusercontent.com/Zulqarnain-10/tweet-emotion-pipeline/main/data/source/tweet_emotions.csv
+          local_source: data/source/tweet_emotions.csv
+          sha256: 
+            cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199
+          text_column: content
+          label_column: sentiment
+          id_column: tweet_id
+          keep_labels:
+          - sadness
+          - happiness
+          positive_label: happiness
+          drop_duplicates: true
+          test_size: 0.2
+          seed: 42
+    outs:
+    - path: data/raw/fetch_manifest.json
+      hash: md5
+      md5: 6886292544bae4d00b83498bd1be50b6
+      size: 961
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c98b654bcbb417345fd2944d9b5552f8
+      size: 187668
+    - path: data/raw/train.csv
+      hash: md5
+      md5: fc29297f675b1f3a5d3a0ae03514cd7c
+      size: 742348
+    - path: data/raw/tweet_emotions.csv
+      hash: md5
+      md5: 378e50a49c97277f1841a684687c2020
+      size: 3768210
+  preprocess:
+    cmd: python -m tweet_emotion.preprocess
+    deps:
+    - path: configs/stopwords_en.txt
+      hash: md5
+      md5: 9a2282c506a5d64108997dbe89731372
+      size: 1048
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c98b654bcbb417345fd2944d9b5552f8
+      size: 187668
+    - path: data/raw/train.csv
+      hash: md5
+      md5: fc29297f675b1f3a5d3a0ae03514cd7c
+      size: 742348
+    - path: src/tweet_emotion/preprocess.py
+      hash: md5
+      md5: 534f3ee0cd2c9bc312b1c139dcf52bda
+      size: 13047
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    params:
+      params.yaml:
+        preprocess:
+          lowercase: true
+          strip_urls: true
+          strip_mentions: true
+          strip_numbers: true
+          strip_punctuation: true
+          remove_stopwords: true
+          stopwords_file: configs/stopwords_en.txt
+          keep_words:
+          - no
+          - nor
+          - not
+          - cannot
+          - can
+          - don
+          - doesn
+          - didn
+          - isn
+          - aren
+          - wasn
+          - weren
+          - won
+          - wouldn
+          - couldn
+          - shouldn
+          - hasn
+          - haven
+          - hadn
+          - mustn
+          - needn
+          - mightn
+          - shan
+          - ain
+          - t
+          lemmatize: true
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 0f1500dfc59e81a7a9629447bf8174f2
+      size: 120028
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 5a6b32cccd321e28c76e06dd8801e465
+      size: 476153
+  features:
+    cmd: python -m tweet_emotion.features
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 0f1500dfc59e81a7a9629447bf8174f2
+      size: 120028
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 5a6b32cccd321e28c76e06dd8801e465
+      size: 476153
+    - path: src/tweet_emotion/features.py
+      hash: md5
+      md5: 3831463a26ae30686c81e7b7f6535f72
+      size: 10918
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    params:
+      params.yaml:
+        features:
+          method: tfidf
+          max_features: 5000
+          ngram_range:
+          - 1
+          - 2
+          min_df: 2
+          sublinear_tf: true
+    outs:
+    - path: data/features/feature_manifest.json
+      hash: md5
+      md5: fca4cd57836ed5cce29338391eccac1e
+      size: 237
+    - path: data/features/test.npz
+      hash: md5
+      md5: 359ec9cc29c7c9f29127ed6d50c717c7
+      size: 80359
+    - path: data/features/train.npz
+      hash: md5
+      md5: 7b22becd164ef0492c1c7d35ae7b9c04
+      size: 334122
+    - path: models/vectorizer.joblib
+      hash: md5
+      md5: 1ecfabe5a0146e9b781f4cc545c047b1
+      size: 56987
+  train:
+    cmd: python -m tweet_emotion.train
+    deps:
+    - path: configs/stopwords_en.txt
+      hash: md5
+      md5: 9a2282c506a5d64108997dbe89731372
+      size: 1048
+    - path: data/features/train.npz
+      hash: md5
+      md5: 7b22becd164ef0492c1c7d35ae7b9c04
+      size: 334122
+    - path: models/vectorizer.joblib
+      hash: md5
+      md5: 1ecfabe5a0146e9b781f4cc545c047b1
+      size: 56987
+    - path: src/tweet_emotion/preprocess.py
+      hash: md5
+      md5: 534f3ee0cd2c9bc312b1c139dcf52bda
+      size: 13047
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    - path: src/tweet_emotion/train.py
+      hash: md5
+      md5: 4925c4583225415511af40a0cf299d9c
+      size: 11479
+    params:
+      params.yaml:
+        preprocess:
+          lowercase: true
+          strip_urls: true
+          strip_mentions: true
+          strip_numbers: true
+          strip_punctuation: true
+          remove_stopwords: true
+          stopwords_file: configs/stopwords_en.txt
+          keep_words:
+          - no
+          - nor
+          - not
+          - cannot
+          - can
+          - don
+          - doesn
+          - didn
+          - isn
+          - aren
+          - wasn
+          - weren
+          - won
+          - wouldn
+          - couldn
+          - shouldn
+          - hasn
+          - haven
+          - hadn
+          - mustn
+          - needn
+          - mightn
+          - shan
+          - ain
+          - t
+          lemmatize: true
+        train:
+          seed: 42
+          cv_folds: 5
+          selection_metric: roc_auc
+          candidates:
+          - logreg
+          - nb
+          - xgboost
+          logreg:
+            C: 1.0
+            max_iter: 1000
+          nb:
+            alpha: 0.5
+          xgboost:
+            n_estimators: 300
+            max_depth: 6
+            learning_rate: 0.1
+            subsample: 0.9
+            colsample_bytree: 0.6
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 222a5d2acb1677dc50ff3d137290e418
+      size: 96792
+    - path: models/version.json
+      hash: md5
+      md5: 7254730f322e6f1b5b0ca97a5ffb666e
+      size: 1200
+  evaluate:
+    cmd: python -m tweet_emotion.evaluate
+    deps:
+    - path: data/features/test.npz
+      hash: md5
+      md5: 359ec9cc29c7c9f29127ed6d50c717c7
+      size: 80359
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c98b654bcbb417345fd2944d9b5552f8
+      size: 187668
+    - path: models/model.joblib
+      hash: md5
+      md5: 222a5d2acb1677dc50ff3d137290e418
+      size: 96792
+    - path: models/version.json
+      hash: md5
+      md5: 7254730f322e6f1b5b0ca97a5ffb666e
+      size: 1200
+    - path: src/tweet_emotion/evaluate.py
+      hash: md5
+      md5: 7325637c5f0ffcc9539725bb70dae901
+      size: 17364
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    params:
+      params.yaml:
+        evaluate:
+          threshold: 0.5
+          top_terms: 20
+          figures: true
+    outs:
+    - path: reports/figures
+      hash: md5
+      md5: 6f7921bbd375323823a0bf4df71dbe7d.dir
+      size: 243744
+      nfiles: 4
+    - path: reports/metrics.json
+      hash: md5
+      md5: 4c20b3b0aa2490d8284bf8f663f94a98
+      size: 1216
+    - path: reports/top_terms.json
+      hash: md5
+      md5: 20d989e4487a3d833e5ee9588ff5d989
+      size: 2444
+  presets:
+    cmd: python -m tweet_emotion.presets
+    deps:
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c98b654bcbb417345fd2944d9b5552f8
+      size: 187668
+    - path: models/model.joblib
+      hash: md5
+      md5: 222a5d2acb1677dc50ff3d137290e418
+      size: 96792
+    - path: reports/metrics.json
+      hash: md5
+      md5: 4c20b3b0aa2490d8284bf8f663f94a98
+      size: 1216
+    - path: src/tweet_emotion/presets.py
+      hash: md5
+      md5: 907b767b42c8436c072d3529730a4ec3
+      size: 8485
+    - path: src/tweet_emotion/settings.py
+      hash: md5
+      md5: d3deb8a10cdf8ea8d4c84ac63df65af8
+      size: 5056
+    params:
+      params.yaml:
+        presets:
+          n: 4
+    outs:
+    - path: configs/presets.json
+      hash: md5
+      md5: b5ebfb31273e76497049306020b00282
+      size: 1543

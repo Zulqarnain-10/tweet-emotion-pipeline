@@ -1,0 +1,58 @@
+# Environments and secrets
+.venv/
+venv/
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Data (DVC-managed, rebuilt deterministically by dvc repro)
+data/raw/
+data/processed/
+data/features/
+
+# NLTK corpora fetched into a local folder by python -m tweet_emotion.setup_nltk
+nltk_data/
+
+# Experiment tracking (local file store), if it is ever switched on
+mlruns/
+mlartifacts/
+
+# DVC internals
+.dvc/cache/
+.dvc/tmp/
+
+# Prediction logs and scratch
+logs/
+*.jsonl
+!configs/*.jsonl
+
+# The demo presets are a pipeline output the service reads, so they stay in git
+!configs/presets.json
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.claude/
+
+# Space staging folder produced by scripts/deploy_space.py
+.space_build/
+
+# Private planning documents: kept on the owner's machine, never published
+/CLAUDE.md
+/docs/STATUS.md

@@ -1,0 +1,102 @@
+stages:
+  ingest:
+    desc: Copy or download the tweet CSV, verify its sha256, keep two labels, drop duplicate texts, stratified split.
+    cmd: python -m tweet_emotion.ingest
+    deps:
+      - src/tweet_emotion/ingest.py
+      - src/tweet_emotion/settings.py
+      - data/source/tweet_emotions.csv
+    params:
+      - data
+    outs:
+      - data/raw/tweet_emotions.csv
+      - data/raw/train.csv
+      - data/raw/test.csv
+      - data/raw/fetch_manifest.json
+
+  preprocess:
+    desc: Normalise text (case, URLs, mentions, numbers, punctuation, stop words, lemmas).
+    cmd: python -m tweet_emotion.preprocess
+    deps:
+      - src/tweet_emotion/preprocess.py
+      - src/tweet_emotion/settings.py
+      - configs/stopwords_en.txt
+      - data/raw/train.csv
+      - data/raw/test.csv
+    params:
+      - preprocess
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  features:
+    desc: Fit the vectoriser on train only, transform both splits, save sparse matrices and the vectoriser.
+    cmd: python -m tweet_emotion.features
+    deps:
+      - src/tweet_emotion/features.py
+      - src/tweet_emotion/settings.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    params:
+      - features
+    outs:
+      - data/features/train.npz
+      - data/features/test.npz
+      - data/features/feature_manifest.json
+      - models/vectorizer.joblib:
+          cache: false
+
+  train:
+    desc: Cross-validate the candidates on train, fit the winner, save the full text-to-probability pipeline.
+    cmd: python -m tweet_emotion.train
+    deps:
+      - src/tweet_emotion/train.py
+      - src/tweet_emotion/preprocess.py
+      - src/tweet_emotion/settings.py
+      - configs/stopwords_en.txt
+      - data/features/train.npz
+      - models/vectorizer.joblib
+    params:
+      - train
+      - preprocess
+    outs:
+      - models/model.joblib:
+          cache: false
+      - models/version.json:
+          cache: false
+
+  evaluate:
+    desc: Score the held-out test split once; write metrics, top terms, and figures.
+    cmd: python -m tweet_emotion.evaluate
+    deps:
+      - src/tweet_emotion/evaluate.py
+      - src/tweet_emotion/settings.py
+      - models/model.joblib
+      - models/version.json
+      - data/features/test.npz
+      - data/raw/test.csv
+    params:
+      - evaluate
+    metrics:
+      - reports/metrics.json:
+          cache: false
+    outs:
+      - reports/top_terms.json:
+          cache: false
+      - reports/figures:
+          cache: false
+
+  presets:
+    desc: Four real held-out tweets chosen by the shipped model's own scores, for the demo page.
+    cmd: python -m tweet_emotion.presets
+    deps:
+      - src/tweet_emotion/presets.py
+      - src/tweet_emotion/settings.py
+      - models/model.joblib
+      - reports/metrics.json
+      - data/raw/test.csv
+    params:
+      - presets
+    outs:
+      - configs/presets.json:
+          cache: false

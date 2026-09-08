@@ -1,0 +1,168 @@
+{
+  "available": true,
+  "method": "logistic regression coefficients",
+  "happiness": [
+    {
+      "term": "thanks",
+      "weight": 4.8966
+    },
+    {
+      "term": "happy",
+      "weight": 4.4215
+    },
+    {
+      "term": "great",
+      "weight": 4.1694
+    },
+    {
+      "term": "haha",
+      "weight": 3.7932
+    },
+    {
+      "term": "good",
+      "weight": 3.6232
+    },
+    {
+      "term": "awesome",
+      "weight": 3.5964
+    },
+    {
+      "term": "excited",
+      "weight": 3.1959
+    },
+    {
+      "term": "yay",
+      "weight": 3.075
+    },
+    {
+      "term": "lol",
+      "weight": 2.9212
+    },
+    {
+      "term": "fun",
+      "weight": 2.9081
+    },
+    {
+      "term": "t wait",
+      "weight": 2.8683
+    },
+    {
+      "term": "nice",
+      "weight": 2.6665
+    },
+    {
+      "term": "amazing",
+      "weight": 2.6365
+    },
+    {
+      "term": "glad",
+      "weight": 2.4558
+    },
+    {
+      "term": "thank",
+      "weight": 2.426
+    },
+    {
+      "term": "cool",
+      "weight": 2.2139
+    },
+    {
+      "term": "hahaha",
+      "weight": 2.0729
+    },
+    {
+      "term": "best",
+      "weight": 2.0413
+    },
+    {
+      "term": "sweet",
+      "weight": 1.9729
+    },
+    {
+      "term": "enjoying",
+      "weight": 1.9532
+    }
+  ],
+  "sadness": [
+    {
+      "term": "sad",
+      "weight": 6.6951
+    },
+    {
+      "term": "miss",
+      "weight": 5.1332
+    },
+    {
+      "term": "not",
+      "weight": 4.0719
+    },
+    {
+      "term": "suck",
+      "weight": 3.9844
+    },
+    {
+      "term": "sorry",
+      "weight": 3.9777
+    },
+    {
+      "term": "no",
+      "weight": 3.858
+    },
+    {
+      "term": "missing",
+      "weight": 3.4049
+    },
+    {
+      "term": "bad",
+      "weight": 3.3942
+    },
+    {
+      "term": "hate",
+      "weight": 3.373
+    },
+    {
+      "term": "hurt",
+      "weight": 3.3305
+    },
+    {
+      "term": "missed",
+      "weight": 3.1194
+    },
+    {
+      "term": "sick",
+      "weight": 3.075
+    },
+    {
+      "term": "t",
+      "weight": 3.0586
+    },
+    {
+      "term": "cry",
+      "weight": 2.8554
+    },
+    {
+      "term": "bored",
+      "weight": 2.5926
+    },
+    {
+      "term": "stupid",
+      "weight": 2.449
+    },
+    {
+      "term": "ugh",
+      "weight": 2.4466
+    },
+    {
+      "term": "poor",
+      "weight": 2.375
+    },
+    {
+      "term": "lost",
+      "weight": 2.3525
+    },
+    {
+      "term": "work",
+      "weight": 2.3355
+    }
+  ]
+}

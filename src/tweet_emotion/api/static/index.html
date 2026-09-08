@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tweet emotion pipeline, live demo</title>
+  <meta name="description" content="A tweet emotion classifier built and tracked as a DVC pipeline: hashed data, params.yaml, receipts for every number, a tested FastAPI endpoint, CI/CD, and a live demo.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A1628'/%3E%3Cpath d='M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z' fill='%23EAF0F9'/%3E%3Ccircle cx='51.5' cy='45.5' r='5.5' fill='%23FF6B35'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="band-dark hero">
+    <div class="wrap">
+      <div class="brand-row">
+        <p class="brand">
+          <svg class="mark" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" focusable="false">
+            <rect width="64" height="64" rx="14" fill="#0F1F38"/>
+            <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EAF0F9"/>
+            <circle cx="51.5" cy="45.5" r="5.5" fill="#FF6B35"/>
+          </svg>
+          <span class="wordmark">Syed Zulqarnain Hassan<span class="dot">.</span></span>
+        </p>
+        <a class="repo-link" href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline">GitHub &#8599;</a>
+      </div>
+      <p class="eyebrow">
+        <span class="livedot" aria-hidden="true"></span>
+        <span>Live model</span>
+        <span aria-hidden="true">&middot;</span>
+        <span class="ver" id="slot-version"><span class="todo">[todo]</span></span>
+      </p>
+      <h1>Tweet emotion detection, <em>shipped as a pipeline.</em></h1>
+      <p class="lede">Type a tweet; the model returns happiness or sadness with a probability, and every stage that produced it, from the hashed source file to the held-out metrics, is tracked by DVC.</p>
+      <p class="lede disclaimer" id="slot-disclaimer">Demonstration system trained on public tweets labelled happiness or sadness by crowd workers in 2016. It scores short English text only and is not a mental-health tool.</p>
+      <noscript><p class="noscript">This page needs JavaScript to read its numbers from the API. The JSON is still at /version, /presets, and /terms.</p></noscript>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="section receipts" aria-labelledby="receipts-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">Receipts</span>
+          <h2 id="receipts-title">Measured on the held-out <em>split.</em></h2>
+          <p>Every number on this page is read from a file the pipeline wrote; nothing is typed by hand. Each tile links to that file on GitHub.</p>
+          <p class="receipt-note">Test split, n = <span id="slot-ntest"><span class="todo">[todo]</span></span></p>
+        </div>
+        <ul class="tiles">
+          <li class="panel tile" data-tile="accuracy">
+            <span class="kicker">Measured</span>
+            <span class="tile-v" id="slot-accuracy"><span class="todo">[todo]</span></span>
+            <span class="tile-l">Accuracy</span>
+            <span class="tile-s">Share of held-out tweets labelled correctly</span>
+            <span class="tile-src"><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/metrics.json">reports/metrics.json</a></span>
+          </li>
+          <li class="panel tile" data-tile="roc_auc">
+            <span class="kicker">Measured</span>
+            <span class="tile-v" id="slot-roc_auc"><span class="todo">[todo]</span></span>
+            <span class="tile-l">ROC-AUC</span>
+            <span class="tile-s">Ranking quality, higher is better</span>
+            <span class="tile-src"><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/metrics.json">reports/metrics.json</a></span>
+          </li>
+          <li class="panel tile" data-tile="f1">
+            <span class="kicker">Measured</span>
+            <span class="tile-v" id="slot-f1"><span class="todo">[todo]</span></span>
+            <span class="tile-l">F1</span>
+            <span class="tile-s">Precision and recall on happiness, combined</span>
+            <span class="tile-src"><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/metrics.json">reports/metrics.json</a></span>
+          </li>
+          <li class="panel tile" data-tile="trained">
+            <span class="kicker">Measured</span>
+            <span class="tile-v" id="slot-trained"><span class="todo">[todo]</span></span>
+            <span class="tile-l">Trained</span>
+            <span class="tile-s">UTC date of the run that produced the shipped model</span>
+            <span class="tile-src"><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/metrics.json">reports/metrics.json</a></span>
+          </li>
+          <li class="panel tile" data-tile="latency">
+            <span class="kicker">Measured</span>
+            <span class="tile-v" id="slot-latency"><span class="todo">[todo]</span></span>
+            <span class="tile-l">p95 latency</span>
+            <span class="tile-s" id="slot-host">POST /predict, host not recorded yet</span>
+            <span class="tile-src"><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/loadtest.json">reports/loadtest.json</a></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="try-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">Try it</span>
+          <h2 id="try-title">Score a <em>tweet.</em></h2>
+          <p>Real held-out tweets, chosen by the shipped model's own scores, are preloaded. Pick one or type your own; the API normalises the text, scores it, and returns a probability.</p>
+        </div>
+
+        <div class="try-grid">
+          <div>
+            <div class="presets" role="group" aria-label="Presets" id="presets">
+              <span class="mono">Presets load from the API: <span class="todo">[todo]</span></span>
+            </div>
+            <p class="preset-desc" id="preset-desc"></p>
+
+            <form class="panel scorer" id="scorer" novalidate>
+              <div class="field">
+                <label for="tweet">Tweet text</label>
+                <p class="hint" id="tweet-hint">Short English text. Before scoring, the pipeline lowercases it, strips URLs, mentions, numbers, and punctuation, drops stop words, and lemmatises what is left.</p>
+                <textarea id="tweet" name="text" rows="5" spellcheck="false" aria-describedby="tweet-hint counter"></textarea>
+                <p class="counter" id="counter"><span class="todo">[todo]</span></p>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit" id="submit">Score this tweet</button>
+                <span class="mono">POST /predict</span>
+              </div>
+            </form>
+          </div>
+
+          <aside class="panel result" aria-live="polite" aria-labelledby="result-title">
+            <span class="kicker" id="result-title">Result</span>
+            <p class="result-empty" id="result-empty">No score yet. Submit a tweet to get the label, its probability, the terms that moved the score, and the model version. The label is happiness when p(happiness) reaches the threshold <span id="slot-threshold"><span class="todo">[todo]</span></span>.</p>
+            <div class="result-error" id="result-error" hidden>
+              <h3 id="result-error-title" tabindex="-1"></h3>
+              <ul id="result-error-list"></ul>
+              <p id="result-error-text"></p>
+            </div>
+            <div class="result-body fade" id="result-body" hidden>
+              <p class="result-metric" id="r-prob"></p>
+              <p class="result-label" id="r-label"></p>
+              <span class="result-metric-l">Probability of the returned label</span>
+
+              <div class="split" id="split">
+                <div class="split-bar" aria-hidden="true">
+                  <span class="split-sad" id="split-sad"></span>
+                  <span class="split-happy"></span>
+                </div>
+                <p class="split-labels">
+                  <span><span class="swatch swatch-sad" aria-hidden="true"></span><span id="split-sad-l"></span></span>
+                  <span><span class="swatch swatch-happy" aria-hidden="true"></span><span id="split-happy-l"></span></span>
+                </p>
+              </div>
+
+              <div class="why" id="why">
+                <span class="kicker">Why</span>
+                <p class="why-note">Term contributions to the score. Coral pulls towards happiness, blue towards sadness.</p>
+                <ol class="why-list" id="why-list" hidden></ol>
+                <p class="why-note" id="why-empty" hidden>This model does not expose per-term contributions.</p>
+                <p class="why-note" id="why-none" hidden>No vocabulary term was found in the normalised text, so the score is the model's intercept alone.</p>
+              </div>
+
+              <p class="result-truth" id="r-truth" hidden></p>
+
+              <dl class="result-meta">
+                <dt>Threshold</dt>
+                <dd id="r-threshold"></dd>
+                <dt>Model</dt>
+                <dd id="r-model"></dd>
+                <dt>Version</dt>
+                <dd id="r-version"></dd>
+                <dt>Normalised text</dt>
+                <dd id="r-normalized"></dd>
+              </dl>
+              <p class="result-disclaimer" id="r-disclaimer"></p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="pipeline-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">The pipeline</span>
+          <h2 id="pipeline-title">Six stages, <em>one command.</em></h2>
+          <p>Each stage declares its deps, params, and outs in dvc.yaml, so the graph is explicit and every artifact is hashed. The cards run left to right in the order DVC runs them.</p>
+        </div>
+        <ol class="stages">
+          <li class="panel stage">
+            <span class="stage-name">ingest</span>
+            <p class="stage-desc">Copy the repository's CSV (download it if it is missing), verify its sha256, keep two labels, drop duplicate texts, split.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>data/raw/<wbr>tweet_emotions.csv</li>
+              <li>data/raw/<wbr>train.csv</li>
+              <li>data/raw/<wbr>test.csv</li>
+              <li>data/raw/<wbr>fetch_manifest.json</li>
+            </ul>
+          </li>
+          <li class="panel stage">
+            <span class="stage-name">preprocess</span>
+            <p class="stage-desc">Normalise text: case, URLs, mentions, numbers, punctuation, stop words, lemmas.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>data/processed/<wbr>train.csv</li>
+              <li>data/processed/<wbr>test.csv</li>
+            </ul>
+          </li>
+          <li class="panel stage">
+            <span class="stage-name">features</span>
+            <p class="stage-desc">Fit the vectoriser on train only and transform both splits.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>data/features/<wbr>train.npz</li>
+              <li>data/features/<wbr>test.npz</li>
+              <li>data/features/<wbr>feature_manifest.json</li>
+              <li>models/<wbr>vectorizer.joblib</li>
+            </ul>
+          </li>
+          <li class="panel stage">
+            <span class="stage-name">train</span>
+            <p class="stage-desc">Cross-validate the candidates, fit the winner, save the full pipeline.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>models/<wbr>model.joblib</li>
+              <li>models/<wbr>version.json</li>
+            </ul>
+          </li>
+          <li class="panel stage">
+            <span class="stage-name">evaluate</span>
+            <p class="stage-desc">Score the held-out split once; write metrics, top terms, and figures.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>reports/<wbr>metrics.json</li>
+              <li>reports/<wbr>top_terms.json</li>
+              <li>reports/<wbr>figures/</li>
+            </ul>
+          </li>
+          <li class="panel stage">
+            <span class="stage-name">presets</span>
+            <p class="stage-desc">Pick real held-out tweets by the shipped model's own scores, for this page.</p>
+            <span class="stage-outs-l">outs</span>
+            <ul class="stage-outs">
+              <li>configs/<wbr>presets.json</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="code-block">
+          <span class="kicker">Reproduce</span>
+          <button class="btn btn-copy" type="button" data-copy="code-dvc" aria-label="Copy the dvc repro command">Copy</button>
+          <pre id="code-dvc"><code>dvc repro</code></pre>
+          <p class="code-note"><code>dvc repro</code> reruns only the stages whose deps or params changed and skips the rest. <code>dvc dag</code> prints the graph; <code>dvc metrics show</code> prints the metrics file.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="terms-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">Top terms</span>
+          <h2 id="terms-title">Words that <em>move the score.</em></h2>
+          <p>The vocabulary terms with the largest weights in the shipped model, read from the file the evaluate stage wrote. Coral leans happiness, blue leans sadness.</p>
+        </div>
+        <div class="terms-grid" id="terms-grid" hidden>
+          <div class="panel terms-col terms-happy">
+            <span class="kicker">Happiness</span>
+            <ol class="terms-list" id="terms-happy-list"></ol>
+          </div>
+          <div class="panel terms-col terms-sad">
+            <span class="kicker">Sadness</span>
+            <ol class="terms-list" id="terms-sad-list"></ol>
+          </div>
+        </div>
+        <div class="panel" id="terms-empty">
+          <p class="terms-empty">Loads from <a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/reports/top_terms.json">reports/top_terms.json</a> through the API. <span class="todo">[todo]</span></p>
+        </div>
+        <p class="method-note" id="slot-terms-method"><span class="todo">[todo]</span></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="run-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">Run it yourself</span>
+          <h2 id="run-title">Same service, <em>one image.</em></h2>
+          <p>The image on GHCR contains the model, the vectoriser, the version and metric receipts, the presets, and this page. The curl example posts the first preset above, so the payload is a real held-out tweet.</p>
+        </div>
+        <div class="run-grid">
+          <div class="code-block">
+            <span class="kicker">Docker</span>
+            <button class="btn btn-copy" type="button" data-copy="code-docker" aria-label="Copy the docker run command">Copy</button>
+            <pre id="code-docker"><code>docker run -p 8000:8000 ghcr.io/zulqarnain-10/tweet-emotion-pipeline:latest</code></pre>
+          </div>
+          <div class="code-block">
+            <span class="kicker">Curl, first preset</span>
+            <button class="btn btn-copy" type="button" data-copy="code-curl" aria-label="Copy the curl command">Copy</button>
+            <pre id="code-curl"><code>curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -d '<span class="todo">[todo]</span>'</code></pre>
+          </div>
+        </div>
+        <p class="run-links">Then open <a href="/docs">/docs</a> for the OpenAPI schema, <a href="/version">/version</a> for the receipts as JSON, and <a href="/metrics">/metrics</a> for Prometheus. The curl line is quoted for a POSIX shell.</p>
+      </div>
+    </section>
+
+    <div class="sr-only" role="status" id="copy-status"></div>
+
+  </main>
+
+  <footer class="band-dark foot">
+    <div class="wrap">
+      <p class="foot-name">
+        <svg class="mark" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" focusable="false">
+          <rect width="64" height="64" rx="14" fill="#0F1F38"/>
+          <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EAF0F9"/>
+          <circle cx="51.5" cy="45.5" r="5.5" fill="#FF6B35"/>
+        </svg>
+        <span class="wordmark">Syed Zulqarnain Hassan<span class="dot">.</span></span>
+      </p>
+      <p class="foot-role">Data Scientist &amp; AI/ML Engineer</p>
+      <ul class="foot-links">
+        <li><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline">GitHub repo</a></li>
+        <li><a href="https://zulqarnainhassan.com">zulqarnainhassan.com</a></li>
+        <li><a href="https://www.linkedin.com/in/syedzulqarnainh">LinkedIn</a></li>
+      </ul>
+      <ul class="foot-links foot-cards">
+        <li><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/models/MODEL_CARD.md">Model card</a></li>
+        <li><a href="https://github.com/Zulqarnain-10/tweet-emotion-pipeline/blob/main/data/DATA_CARD.md">Data card</a></li>
+      </ul>
+      <p class="foot-note">Source data: CrowdFlower "Sentiment Analysis: Emotion in Text", 2016. The data card carries the file hashes and the label counts.</p>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

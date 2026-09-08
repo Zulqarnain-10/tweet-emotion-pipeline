@@ -1,0 +1,23 @@
+# docker compose up  -> the API and its demo page on http://localhost:8000
+#
+# The image carries the trained model, its receipts, and the WordNet corpus, so nothing is
+# downloaded at start-up and no volume is needed.
+services:
+  api:
+    build: .
+    image: tweet-emotion-pipeline:local
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: "8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped

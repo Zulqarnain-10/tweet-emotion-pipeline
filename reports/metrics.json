@@ -1,0 +1,52 @@
+{
+  "model": "logreg",
+  "model_version": "0.1.0+unknown",
+  "trained_at": "2026-09-08T21:51:46Z",
+  "git_sha": "unknown",
+  "data_sha256": "cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199",
+  "n_train": 8269,
+  "n_test": 2068,
+  "n_features": 5000,
+  "positive_label": "happiness",
+  "positive_rate_test": 0.5015,
+  "threshold": 0.5,
+  "accuracy": 0.8129,
+  "precision": 0.8113,
+  "recall": 0.8168,
+  "f1": 0.814,
+  "roc_auc": 0.889,
+  "pr_auc": 0.8909,
+  "brier": 0.141,
+  "log_loss": 0.4431,
+  "confusion": {
+    "tn": 834,
+    "fp": 197,
+    "fn": 190,
+    "tp": 847
+  },
+  "majority_baseline_accuracy": 0.5015,
+  "candidates_cv": {
+    "logreg": {
+      "cv_roc_auc_mean": 0.8868,
+      "cv_roc_auc_std": 0.0047,
+      "cv_accuracy_mean": 0.8037,
+      "cv_f1_mean": 0.8057,
+      "fit_seconds": 0.05
+    },
+    "nb": {
+      "cv_roc_auc_mean": 0.8685,
+      "cv_roc_auc_std": 0.004,
+      "cv_accuracy_mean": 0.782,
+      "cv_f1_mean": 0.7802,
+      "fit_seconds": 0.01
+    },
+    "xgboost": {
+      "cv_roc_auc_mean": 0.8704,
+      "cv_roc_auc_std": 0.0069,
+      "cv_accuracy_mean": 0.7876,
+      "cv_f1_mean": 0.7982,
+      "fit_seconds": 22.56
+    }
+  },
+  "selection_metric": "roc_auc"
+}

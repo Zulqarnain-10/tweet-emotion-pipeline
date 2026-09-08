@@ -1,0 +1,4 @@
+# Everything needed to run dvc repro end to end. Not installed in the serving image.
+-r requirements.txt
+dvc==3.67.1
+matplotlib==3.11.1

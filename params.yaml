@@ -1,0 +1,83 @@
+# Single source of pipeline parameters. Every stage in dvc.yaml reads from here.
+
+data:
+  # CrowdFlower "Sentiment Analysis: Emotion in Text" (40,000 tweets, 13 labels). The CSV is
+  # kept byte for byte under data/source/ in this repository and fetched from the repository's
+  # own raw URL, then verified by hash before anything else runs.
+  url: "https://raw.githubusercontent.com/Zulqarnain-10/tweet-emotion-pipeline/main/data/source/tweet_emotions.csv"
+  # The repository copy. When it is present and its hash matches, ingest copies it instead of
+  # downloading, so a fresh clone rebuilds offline. Delete it to exercise the download path.
+  local_source: "data/source/tweet_emotions.csv"
+  sha256: "cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199"
+  text_column: "content"
+  label_column: "sentiment"
+  id_column: "tweet_id"
+  # The binary task: keep two of the thirteen labels. positive_label maps to 1, the other to 0.
+  keep_labels: ["sadness", "happiness"]
+  positive_label: "happiness"
+  # Tweets whose text is identical after HTML unescaping, case folding, and whitespace collapsing
+  # are dropped before the split, so the same tweet cannot sit in both train and test.
+  drop_duplicates: true
+  test_size: 0.2
+  seed: 42
+
+preprocess:
+  lowercase: true
+  strip_urls: true
+  strip_mentions: true
+  strip_numbers: true
+  strip_punctuation: true
+  remove_stopwords: true
+  # Stop words are frozen in configs/stopwords_en.txt (the NLTK English list), so the stage
+  # never downloads them and the list is a versioned dependency.
+  stopwords_file: "configs/stopwords_en.txt"
+  # Words taken back out of the stop list before it is applied. NLTK's list drops negations,
+  # which would score "not happy" exactly like "happy". Apostrophes are stripped before stop
+  # words are removed, so "don't" reaches this step as the tokens "don" and "t".
+  keep_words: ["no", "nor", "not", "cannot", "can", "don", "doesn", "didn", "isn", "aren", "wasn",
+               "weren", "won", "wouldn", "couldn", "shouldn", "hasn", "haven", "hadn", "mustn",
+               "needn", "mightn", "shan", "ain", "t"]
+  # WordNet lemmatisation through NLTK. The corpus is fetched once by
+  # python -m tweet_emotion.setup_nltk (the Dockerfile and CI run it).
+  lemmatize: true
+
+features:
+  # tfidf or bow (CountVectorizer). Fit on train only, applied unchanged to test.
+  method: "tfidf"
+  max_features: 5000
+  ngram_range: [1, 2]
+  min_df: 2
+  sublinear_tf: true
+
+train:
+  seed: 42
+  # Candidates are compared by stratified cross-validation on the training split only.
+  # The best mean cv score ships. The test split is touched once, in evaluate.
+  cv_folds: 5
+  selection_metric: "roc_auc"
+  candidates: ["logreg", "nb", "xgboost"]
+  logreg:
+    C: 1.0
+    max_iter: 1000
+  nb:
+    alpha: 0.5
+  xgboost:
+    n_estimators: 300
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.9
+    colsample_bytree: 0.6
+
+evaluate:
+  threshold: 0.5
+  top_terms: 20
+  figures: true
+
+presets:
+  # Real held-out tweets chosen by the shipped model's own scores: clearest happiness,
+  # clearest sadness, the closest call, and one the model gets wrong.
+  n: 4
+
+api:
+  max_chars: 1000
+  batch_max: 100

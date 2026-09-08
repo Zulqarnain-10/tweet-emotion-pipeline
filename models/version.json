@@ -1,0 +1,51 @@
+{
+  "model": "logreg",
+  "package_version": "0.1.0",
+  "model_version": "0.1.0+unknown",
+  "git_sha": "unknown",
+  "git_sha_short": "unknown",
+  "git_dirty": false,
+  "data_sha256": "cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199",
+  "trained_at": "2026-09-08T21:51:46Z",
+  "n_train": 8269,
+  "n_features": 5000,
+  "selection_metric": "roc_auc",
+  "cv_folds": 5,
+  "candidates": {
+    "logreg": {
+      "cv_roc_auc_mean": 0.8868,
+      "cv_roc_auc_std": 0.0047,
+      "cv_accuracy_mean": 0.8037,
+      "cv_f1_mean": 0.8057,
+      "fit_seconds": 0.05
+    },
+    "nb": {
+      "cv_roc_auc_mean": 0.8685,
+      "cv_roc_auc_std": 0.004,
+      "cv_accuracy_mean": 0.782,
+      "cv_f1_mean": 0.7802,
+      "fit_seconds": 0.01
+    },
+    "xgboost": {
+      "cv_roc_auc_mean": 0.8704,
+      "cv_roc_auc_std": 0.0069,
+      "cv_accuracy_mean": 0.7876,
+      "cv_f1_mean": 0.7982,
+      "fit_seconds": 22.56
+    }
+  },
+  "winner_params": {
+    "C": 1.0,
+    "max_iter": 1000
+  },
+  "libraries": {
+    "python": "3.12.2",
+    "scikit-learn": "1.9.0",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "nltk": "3.10.3",
+    "xgboost": "3.4.1",
+    "joblib": "1.6.0"
+  }
+}
