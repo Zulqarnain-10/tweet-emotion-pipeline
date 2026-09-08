@@ -133,8 +133,8 @@ one only when the winner exposes per-term weights).
 
 ## Latency (`reports/loadtest.json`)
 
-p95 140.6 ms for `POST /predict`, 300 requests at concurrency 10, 105.71 requests per second,
-error rate 0.0, on local uvicorn, Windows 11, Python 3.12, single process. Measured with
+p95 488.76 ms for `POST /predict`, 300 requests at concurrency 10, 41.03 requests per second,
+error rate 0.0, on Hugging Face Space, CPU basic, Docker, single process. Measured with
 `python -m tweet_emotion.loadtest` against the URL recorded in the file; when the host is the
 live Space the number includes network time from the client.
 

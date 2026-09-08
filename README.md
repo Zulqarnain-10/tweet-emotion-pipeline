@@ -112,7 +112,7 @@ Candidates, 5-fold stratified cross-validation on the training split only, selec
 | Multinomial naive Bayes (`nb`) | 0.8685 ± 0.0040 | 0.7820 | 0.01 | |
 | XGBoost (`xgboost`) | 0.8704 ± 0.0069 | 0.7876 | 19.90 | |
 
-Latency: p95 140.60 ms for POST /predict, 300 requests at concurrency 10, 105.71 requests per second, on local uvicorn, Windows 11, Python 3.12, single process (reports/loadtest.json).
+Latency: p95 488.76 ms for POST /predict, 300 requests at concurrency 10, 41.03 requests per second, on Hugging Face Space, CPU basic, Docker, single process (reports/loadtest.json).
 
 Provenance: trained 2026-09-08T21:53:52Z, git 5d310c0, data sha256 cbceef785468, rows 8,269 train / 2,068 test (models/version.json).
 <!-- metrics:end -->
