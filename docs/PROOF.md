@@ -28,7 +28,7 @@ and does not repeat the numbers.
 | Shipped model name in the table header | `models/version.json` | `model` | `python -m tweet_emotion.train` (stage `train`) |
 | Folds and selection metric | `models/version.json` | `cv_folds`, `selection_metric` (declared in `params.yaml` `train`) | stage `train` |
 | Per-candidate cv ROC-AUC mean and std, cv accuracy, fit seconds | `reports/metrics.json` (`candidates_cv`, a copy of `models/version.json` `candidates`) | `candidates_cv.<name>.cv_roc_auc_mean`, `.cv_roc_auc_std`, `.cv_accuracy_mean`, `.fit_seconds` | stage `train`, copied by stage `evaluate` |
-| p95 latency, requests, concurrency, requests per second, host | `reports/loadtest.json` | `p95_ms`, `requests`, `concurrency`, `rps`, `host` | `python -m tweet_emotion.loadtest --url http://127.0.0.1:8000 --requests 300 --concurrency 10 --host "Hugging Face Space, CPU basic, Docker, single process"` |
+| p95 latency, requests, concurrency, requests per second, host | `reports/loadtest.json` | `p95_ms`, `requests`, `concurrency`, `rps`, `host` | `python -m tweet_emotion.loadtest --url https://syedzulqarnainh-tweet-emotion-pipeline.hf.space --requests 300 --concurrency 10 --host "Hugging Face Space, CPU basic, Docker, single process"` |
 | Trained at | `models/version.json` | `trained_at` | stage `train` |
 | Git sha (short) | `models/version.json` | `git_sha_short` | stage `train` |
 | Data sha256 (first 12) | `models/version.json` | `data_sha256` (declared in `params.yaml` `data.sha256`, verified by stage `ingest`) | stage `train` |
