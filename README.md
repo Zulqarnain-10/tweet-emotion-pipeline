@@ -329,7 +329,8 @@ This repository is one of the receipts;
 [LinkedIn](https://www.linkedin.com/in/syedzulqarnainh)
 
 Code is MIT licensed ([LICENSE](LICENSE)). The CrowdFlower CSV is redistributed unchanged at
-`data/source/tweet_emotions.csv` so that a clone reproduces the pipeline; the original terms are
-[todo: confirm the CrowdFlower Data for Everyone terms before any reuse beyond this pipeline], no
-license is asserted for the data here, and the file will be removed on request. The
-[data card](data/DATA_CARD.md) carries the source and the hashes.
+`data/source/tweet_emotions.csv` so that a clone reproduces the pipeline. The data.world listing for
+the dataset ([crowdflower/sentiment-analysis-in-text](https://data.world/crowdflower/sentiment-analysis-in-text))
+states the license as Public Domain; that listing is the only licence statement found, no further
+rights are claimed here, and the file will be removed on request. The [data card](data/DATA_CARD.md)
+carries the source and the hashes.

@@ -174,5 +174,5 @@ particular score, when the winner is linear. Top five per label from the current
 
 ## License
 
-Code: MIT (`LICENSE`). Data: [todo: confirm the CrowdFlower Data for Everyone terms before reuse];
+Code: MIT (`LICENSE`). Data: listed as Public Domain on data.world (crowdflower/sentiment-analysis-in-text);
 see `data/DATA_CARD.md`.

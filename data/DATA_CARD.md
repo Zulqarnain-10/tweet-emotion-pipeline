@@ -17,9 +17,11 @@ render as `[todo: ...]` chips; fill them from the manifest after `dvc repro`, ne
   raw URL for that file; `ingest` downloads from it only when the committed copy is missing. The
   hash below is what makes either copy trustworthy: a file that does not match it stops the
   pipeline.
-- License: the file is redistributed unchanged for reproducibility. The original terms are
-  [todo: confirm the CrowdFlower Data for Everyone terms before any reuse beyond this pipeline].
-  No license is asserted here until that is checked, and the file will be removed on request.
+- License: the file is redistributed unchanged for reproducibility. The data.world listing for the
+  dataset, [crowdflower/sentiment-analysis-in-text](https://data.world/crowdflower/sentiment-analysis-in-text),
+  states the license as Public Domain (its data package export carries the same field). That listing
+  is the only licence statement found; no further rights are claimed here, and the file will be
+  removed on request.
 
 ## Integrity
 
