@@ -27,12 +27,10 @@ COPY src/ ./src/
 RUN pip install --no-deps .
 
 # WordNet and omw-1.4 for the lemmatiser. nltk only downloads into NLTK_DATA when the directory
-# already exists, so create it first. The zip archives go once their unpacked folders are present.
-RUN mkdir -p /opt/nltk_data \
-    && python -m tweet_emotion.setup_nltk \
-    && for archive in /opt/nltk_data/corpora/*.zip; do \
-         if [ -d "${archive%.zip}" ]; then rm -f "$archive"; fi; \
-       done
+# already exists, so create it first. nltk 3.10 leaves the corpora zipped and resolving a resource
+# inside the zip failed at runtime on Linux, so the archives are unpacked here and removed, and the
+# build fails early if the plain directory lookup does not resolve.
+RUN mkdir -p /opt/nltk_data \n    && python -m tweet_emotion.setup_nltk \n    && python -c "import pathlib, zipfile; c = pathlib.Path('/opt/nltk_data/corpora'); [(zipfile.ZipFile(a).extractall(c), a.unlink()) for a in sorted(c.glob('*.zip'))]" \n    && python -c "import nltk; print('wordnet at', nltk.data.find('corpora/wordnet'))"
 
 # Drop what the service never imports: bytecode caches, bundled test suites, and pip.
 RUN find /opt/venv -type d -name "__pycache__" -prune -exec rm -rf {} + \
@@ -74,7 +72,7 @@ USER app
 EXPOSE 8000
 
 # Slim images ship no curl, so the probe uses the standard library. PORT may be overridden (7860 on Spaces).
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
     CMD python -c "import os, sys, urllib.request; port = os.environ.get('PORT', '8000'); sys.exit(0 if urllib.request.urlopen(f'http://127.0.0.1:{port}/health', timeout=4).status == 200 else 1)"
 
 CMD ["python", "-m", "tweet_emotion.api"]

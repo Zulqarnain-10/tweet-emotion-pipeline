@@ -1,0 +1,9 @@
+# Gitleaks configuration: the default rules plus one allowlist.
+# data/source/tweet_emotions.csv is public tweet text from 2016; a few tweets quote giveaway or
+# promo codes that look like API keys to the generic rules. Nothing in that file is a credential.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public tweet text is not a secret"
+paths = ['''data/source/tweet_emotions\.csv''']
