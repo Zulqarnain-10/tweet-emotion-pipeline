@@ -1,8 +1,8 @@
 {
   "model": "logreg",
-  "model_version": "0.1.0+unknown",
-  "trained_at": "2026-09-08T21:51:46Z",
-  "git_sha": "unknown",
+  "model_version": "0.1.0+5d310c0",
+  "trained_at": "2026-09-08T21:53:52Z",
+  "git_sha": "5d310c033a1cf8a3021574bf3914405923a27bd4",
   "data_sha256": "cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199",
   "n_train": 8269,
   "n_test": 2068,
@@ -45,7 +45,7 @@
       "cv_roc_auc_std": 0.0069,
       "cv_accuracy_mean": 0.7876,
       "cv_f1_mean": 0.7982,
-      "fit_seconds": 22.56
+      "fit_seconds": 19.9
     }
   },
   "selection_metric": "roc_auc"

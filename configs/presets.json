@@ -38,5 +38,5 @@
     }
   ],
   "chosen_by": "model scores on the held-out test split",
-  "model_version": "0.1.0+unknown"
+  "model_version": "0.1.0+5d310c0"
 }

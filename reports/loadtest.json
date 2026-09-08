@@ -1,0 +1,35 @@
+{
+  "url": "http://127.0.0.1:8000",
+  "host": "local uvicorn, Windows 11, Python 3.12, single process",
+  "endpoint": "/predict",
+  "requests": 300,
+  "concurrency": 10,
+  "payload_presets": [
+    "clear_happiness",
+    "clear_sadness",
+    "close_call",
+    "model_miss"
+  ],
+  "model_version": "0.1.0+5d310c0",
+  "git_sha_short": "5d310c0",
+  "p50_ms": 90.1,
+  "p95_ms": 140.6,
+  "p99_ms": 218.81,
+  "mean_ms": 90.96,
+  "min_ms": 34.01,
+  "max_ms": 314.68,
+  "rps": 105.71,
+  "error_rate": 0.0,
+  "errors": 0,
+  "duration_s": 2.838,
+  "status_counts": {
+    "200": 300
+  },
+  "warmup_excluded": 1,
+  "latency_basis": "responses of any status; exceptions count as errors without latency",
+  "timestamp": "2026-09-08T21:55:01Z",
+  "client": {
+    "python": "3.12.2",
+    "httpx": "0.28.1"
+  }
+}

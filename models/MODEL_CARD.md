@@ -15,17 +15,17 @@ from memory.
 
 | Field | Value |
 |---|---|
-| Shipped model | [todo: `model`] (the winning candidate, inside a scikit-learn `Pipeline`) |
-| Model version | [todo: `model_version`] |
+| Shipped model | `logreg` (the winning candidate, inside a scikit-learn `Pipeline`) |
+| Model version | 0.1.0+5d310c0 |
 | Package version | 0.1.0 (`package_version`, from `src/tweet_emotion/__init__.py`) |
-| Git sha at training time | [todo: `git_sha`] (`git_dirty`: [todo]) |
-| Trained at | [todo: `trained_at`] |
+| Git sha at training time | `5d310c033a1cf8a3021574bf3914405923a27bd4` (`git_dirty`: false) |
+| Trained at | 2026-09-08T21:53:52Z |
 | Data sha256 | `cbceef78546853a516edb24689bd9a78cc2a2d6bcc5d5cc9a9e3dee6f923c199` (declared in `params.yaml`, verified by `ingest`, copied by `train`) |
-| Rows used | [todo: `n_train`] train, [todo: `n_test` from `reports/metrics.json`] test |
-| Features seen by the classifier | [todo: `n_features`] (the fitted vocabulary, at most 5,000 by `params.yaml`) |
+| Rows used | 8,269 train, 2,068 test |
+| Features seen by the classifier | 5,000 (the fitted vocabulary, at most 5,000 by `params.yaml`) |
 | Selection metric and folds | `roc_auc`, 5 (`selection_metric`, `cv_folds`) |
-| Winner hyperparameters | [todo: `winner_params`] |
-| Libraries | [todo: `libraries`: python, scikit-learn, numpy, pandas, scipy, nltk, xgboost, joblib] |
+| Winner hyperparameters | `C` 1.0, `max_iter` 1000 |
+| Libraries | python 3.12.2, scikit-learn 1.9.0, numpy 2.5.3, pandas 2.3.3, scipy 1.18.1, nltk 3.10.3, xgboost 3.4.1, joblib 1.6.0 |
 
 ## Intended use
 
@@ -46,9 +46,8 @@ binary task keeps happiness (5,209 rows in the full file, class 1) and sadness (
 class 0), drops duplicate texts (judged after HTML unescaping, case folding, and whitespace
 collapsing; first occurrence kept), and splits 80 / 20 stratified on the label with seed 42. The
 CSV is committed at `data/source/tweet_emotions.csv` and verified by hash by `ingest`.
-Rows after the duplicate rule and per split: [todo: `n_kept`, `n_train`, `n_test` from
-`data/raw/fetch_manifest.json`]. Source, hash, label counts, quirks, and the license chip:
-`data/DATA_CARD.md`.
+Rows after the duplicate rule and per split: 10,337 (8,269 train, 2,068 test). Source, hash,
+label counts, quirks, and the license chip: `data/DATA_CARD.md`.
 
 ## Preprocessing
 
@@ -73,7 +72,7 @@ to every request (`params.yaml` `features`): unigrams and bigrams, at most 5,000
 survive, no further lower-casing (the normaliser already did it), `float32` values. The fitted
 vectoriser is `models/vectorizer.joblib`; its vocabulary size and the density of the training
 matrix are in `data/features/feature_manifest.json` (rebuilt by `dvc repro`, not committed):
-vocabulary [todo: `vocabulary_size`], training density [todo: `density_train`].
+vocabulary 5,000, training density 0.0015.
 
 ## Candidates and selection rule (`params.yaml` `train`)
 
@@ -96,28 +95,28 @@ copied into `reports/metrics.json` `candidates_cv`):
 
 | Candidate | cv ROC-AUC mean | cv ROC-AUC std | cv accuracy | cv F1 | Fit seconds | Shipped |
 |---|---|---|---|---|---|---|
-| `logreg` | [todo] | [todo] | [todo] | [todo] | [todo] | [todo: yes or no] |
-| `nb` | [todo] | [todo] | [todo] | [todo] | [todo] | [todo: yes or no] |
-| `xgboost` | [todo] | [todo] | [todo] | [todo] | [todo] | [todo: yes or no] |
+| `logreg` | 0.8868 | 0.0047 | 0.8037 | 0.8057 | 0.05 | yes |
+| `nb` | 0.8685 | 0.004 | 0.782 | 0.7802 | 0.01 | no |
+| `xgboost` | 0.8704 | 0.0069 | 0.7876 | 0.7982 | 19.9 | no |
 
 ## Metrics (`reports/metrics.json`)
 
-Measured once on the held-out test split, n = [todo: `n_test`], share labelled happiness
-[todo: `positive_rate_test`], at the decision threshold 0.5 (`params.yaml` `evaluate.threshold`).
+Measured once on the held-out test split, n = 2,068, share labelled happiness 0.5015, at the
+decision threshold 0.5 (`params.yaml` `evaluate.threshold`).
 The test split was not used for any modelling or selection decision. `evaluate` also checks that
 the full pipeline on the raw test texts reproduces the probabilities from the pre-vectorised
 matrix to within 1e-6, so these numbers describe the object the API serves.
 
 | Metric | Shipped model | Majority baseline |
 |---|---|---|
-| Accuracy | [todo: `accuracy`] | [todo: `majority_baseline_accuracy`] |
-| Precision | [todo: `precision`] | |
-| Recall | [todo: `recall`] | |
-| F1 | [todo: `f1`] | |
-| ROC-AUC | [todo: `roc_auc`] | |
-| PR-AUC (average precision) | [todo: `pr_auc`] | |
-| Brier score (lower is better) | [todo: `brier`] | |
-| Log loss (lower is better) | [todo: `log_loss`] | |
+| Accuracy | 0.8129 | 0.5015 |
+| Precision | 0.8113 | |
+| Recall | 0.8168 | |
+| F1 | 0.814 | |
+| ROC-AUC | 0.889 | |
+| PR-AUC (average precision) | 0.8909 | |
+| Brier score (lower is better) | 0.141 | |
+| Log loss (lower is better) | 0.4431 | |
 
 The majority baseline predicts the more common class for every tweet, so only its accuracy is
 meaningful; the two kept labels are close in size, so it is near one half.
@@ -126,18 +125,18 @@ Confusion matrix at the threshold (`confusion`; happiness is the positive class)
 
 | | Predicted sadness | Predicted happiness |
 |---|---|---|
-| Actual sadness | TN [todo: `confusion.tn`] | FP [todo: `confusion.fp`] |
-| Actual happiness | FN [todo: `confusion.fn`] | TP [todo: `confusion.tp`] |
+| Actual sadness | TN 834 | FP 197 |
+| Actual happiness | FN 190 | TP 847 |
 
 Figures: `reports/figures/roc.png`, `pr.png`, `confusion.png`, and `top_terms.png` (the last
 one only when the winner exposes per-term weights).
 
 ## Latency (`reports/loadtest.json`)
 
-p95 [todo: `p95_ms`] ms for `POST /predict`, [todo: `requests`] requests at concurrency
-[todo: `concurrency`], [todo: `rps`] requests per second, error rate [todo: `error_rate`], on
-[todo: `host`]. Measured with `python -m tweet_emotion.loadtest` against the URL recorded in the
-file; when the host is the live Space the number includes network time from the client.
+p95 140.6 ms for `POST /predict`, 300 requests at concurrency 10, 105.71 requests per second,
+error rate 0.0, on local uvicorn, Windows 11, Python 3.12, single process. Measured with
+`python -m tweet_emotion.loadtest` against the URL recorded in the file; when the host is the
+live Space the number includes network time from the client.
 
 ## Top terms (`reports/top_terms.json`)
 
@@ -151,11 +150,11 @@ particular score, when the winner is linear. Top five per label from the current
 
 | Rank | Happiness | Sadness |
 |---|---|---|
-| 1 | [todo: `happiness[0].term`] | [todo: `sadness[0].term`] |
-| 2 | [todo] | [todo] |
-| 3 | [todo] | [todo] |
-| 4 | [todo] | [todo] |
-| 5 | [todo] | [todo] |
+| 1 | thanks | sad |
+| 2 | happy | miss |
+| 3 | great | not |
+| 4 | haha | suck |
+| 5 | good | sorry |
 
 ## Limitations
 

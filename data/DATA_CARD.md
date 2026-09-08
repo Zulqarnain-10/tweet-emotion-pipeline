@@ -56,8 +56,7 @@ already matches is reused. `data/raw/fetch_manifest.json` records which path ran
 | boredom | 179 |
 | anger | 110 |
 
-- Duplicate texts in the full file, judged the way the duplicate rule below judges them:
-  [todo: `n_duplicate_texts_total` from data/raw/fetch_manifest.json].
+- Duplicate texts in the full file, judged the way the duplicate rule below judges them: 224.
 
 ## The binary task
 
@@ -73,9 +72,9 @@ That is 10,374 rows before the duplicate rule. From `data/raw/fetch_manifest.jso
 
 | Field | Value |
 |---|---|
-| `n_kept_before_dedup` | [todo: from data/raw/fetch_manifest.json] |
-| `n_duplicates_dropped` | [todo: from data/raw/fetch_manifest.json] |
-| `n_kept` | [todo: from data/raw/fetch_manifest.json] |
+| `n_kept_before_dedup` | 10,374 |
+| `n_duplicates_dropped` | 37 |
+| `n_kept` | 10,337 |
 
 ## Duplicate rule
 
@@ -97,8 +96,8 @@ then each split is sorted by `tweet_id` so the CSVs are byte-stable across runs.
 
 | Split | Rows | Positive rate (happiness) |
 |---|---|---|
-| train | [todo: `n_train`] | [todo: `positive_rate_train`] |
-| test | [todo: `n_test`] | [todo: `positive_rate_test`] |
+| train | 8,269 | 0.5014 |
+| test | 2,068 | 0.5015 |
 
 The test split is read by `evaluate` (once, for the headline metrics) and by `presets` (to pick
 the four demo tweets). Nothing is fitted or tuned on it.

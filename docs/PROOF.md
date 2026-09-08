@@ -43,14 +43,14 @@ and does not repeat the numbers.
 | Dataset rows | 40,000 | `data/raw/fetch_manifest.json` | `n_rows_total` | stage `ingest` |
 | Labels in the full file | 13 | `data/raw/fetch_manifest.json` | `label_counts_total` (13 keys) | stage `ingest` |
 | Happiness and sadness rows in the full file | 5,209 and 5,165 | `data/raw/fetch_manifest.json` | `label_counts_total.happiness`, `.sadness` | stage `ingest` |
-| Rows kept after the duplicate rule | [todo] | `data/raw/fetch_manifest.json` | `n_kept`, `n_duplicates_dropped` | stage `ingest` |
-| Duplicate texts in the full file (after HTML unescaping, case folding, and whitespace collapsing) | [todo] | `data/raw/fetch_manifest.json` | `n_duplicate_texts_total` | stage `ingest` |
+| Rows kept after the duplicate rule | 10,337 kept, 37 dropped | `data/raw/fetch_manifest.json` | `n_kept`, `n_duplicates_dropped` | stage `ingest` |
+| Duplicate texts in the full file (after HTML unescaping, case folding, and whitespace collapsing) | 224 | `data/raw/fetch_manifest.json` | `n_duplicate_texts_total` | stage `ingest` |
 | Held-out fraction and seed | 0.2, 42 | `params.yaml` | `data.test_size`, `data.seed` (echoed in the manifest as `test_size`, `seed`) | declared |
 | DVC stages | 6 | `dvc.yaml` | stage count | `python -m dvc dag` |
 | Stop words in the frozen list | 198 | `configs/stopwords_en.txt` | line count | `python -c "print(sum(1 for _ in open('configs/stopwords_en.txt', encoding='utf-8')))"` |
 | Stop words in effect (the list minus the negation tokens in `preprocess.keep_words`) | 174 | `configs/stopwords_en.txt`, `params.yaml` | `preprocess.keep_words`, subtracted by `TextNormalizer.from_params` | `python -c "from tweet_emotion import settings; from tweet_emotion.preprocess import TextNormalizer; print(len(TextNormalizer.from_params(settings.load_params()).stopwords))"` |
 | Vectoriser settings | 1-2 grams, 5,000 features, `min_df` 2, sublinear tf | `params.yaml` | `features.ngram_range`, `.max_features`, `.min_df`, `.sublinear_tf` (echoed in `data/features/feature_manifest.json`) | declared |
-| Fitted vocabulary size | [todo] | `data/features/feature_manifest.json` (not committed) and `models/version.json` | `vocabulary_size`; `n_features` | stage `features`, stage `train` |
+| Fitted vocabulary size | 5,000 | `data/features/feature_manifest.json` (not committed) and `models/version.json` | `vocabulary_size`; `n_features` | stage `features`, stage `train` |
 | Candidates and folds | 3 (`logreg`, `nb`, `xgboost`), 5 | `params.yaml` | `train.candidates`, `train.cv_folds` | declared |
 | Decision threshold | 0.5 | `params.yaml` | `evaluate.threshold` | declared |
 | Parity check tolerance between raw-text and pre-vectorised paths | 1e-6 | `src/tweet_emotion/evaluate.py` | the assertion in the evaluate stage | code |
