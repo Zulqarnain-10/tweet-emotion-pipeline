@@ -30,7 +30,10 @@ RUN pip install --no-deps .
 # already exists, so create it first. nltk 3.10 leaves the corpora zipped and resolving a resource
 # inside the zip failed at runtime on Linux, so the archives are unpacked here and removed, and the
 # build fails early if the plain directory lookup does not resolve.
-RUN mkdir -p /opt/nltk_data \n    && python -m tweet_emotion.setup_nltk \n    && python -c "import pathlib, zipfile; c = pathlib.Path('/opt/nltk_data/corpora'); [(zipfile.ZipFile(a).extractall(c), a.unlink()) for a in sorted(c.glob('*.zip'))]" \n    && python -c "import nltk; print('wordnet at', nltk.data.find('corpora/wordnet'))"
+RUN mkdir -p /opt/nltk_data \
+    && python -m tweet_emotion.setup_nltk \
+    && python -c "import pathlib, zipfile; c = pathlib.Path('/opt/nltk_data/corpora'); [(zipfile.ZipFile(a).extractall(c), a.unlink()) for a in sorted(c.glob('*.zip'))]" \
+    && python -c "import nltk; print('wordnet at', nltk.data.find('corpora/wordnet'))"
 
 # Drop what the service never imports: bytecode caches, bundled test suites, and pip.
 RUN find /opt/venv -type d -name "__pycache__" -prune -exec rm -rf {} + \
