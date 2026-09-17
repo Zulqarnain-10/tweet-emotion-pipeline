@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tweet emotion pipeline, live demo</title>
   <meta name="description" content="A tweet emotion classifier built and tracked as a DVC pipeline: hashed data, params.yaml, receipts for every number, a tested FastAPI endpoint, CI/CD, and a live demo.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23251D49'/%3E%3Cpath d='M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z' fill='%23EFEDF9'/%3E%3Ccircle cx='51.5' cy='45.5' r='5.5' fill='%23FFB238'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1F38'/%3E%3Cpath d='M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z' fill='%23EAF0F9'/%3E%3Ccircle cx='51.5' cy='45.5' r='5.5' fill='%23FFD93D'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,9 +19,9 @@
       <div class="brand-row">
         <p class="brand">
           <svg class="mark" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" focusable="false">
-            <rect width="64" height="64" rx="14" fill="#251D49"/>
-            <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EFEDF9"/>
-            <circle cx="51.5" cy="45.5" r="5.5" fill="#FFB238"/>
+            <rect width="64" height="64" rx="14" fill="#0F1F38"/>
+            <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EAF0F9"/>
+            <circle cx="51.5" cy="45.5" r="5.5" fill="#FFD93D"/>
           </svg>
           <span class="wordmark">Syed Zulqarnain Hassan<span class="dot">.</span></span>
         </p>
@@ -145,7 +145,7 @@
 
               <div class="why" id="why">
                 <span class="kicker">Why</span>
-                <p class="why-note">Term contributions to the score. Gold pulls towards happiness, indigo towards sadness.</p>
+                <p class="why-note">Term contributions to the score. Yellow pulls towards happiness, blue towards sadness.</p>
                 <ol class="why-list" id="why-list" hidden></ol>
                 <p class="why-note" id="why-empty" hidden>This model does not expose per-term contributions.</p>
                 <p class="why-note" id="why-none" hidden>No vocabulary term was found in the normalised text, so the score is the model's intercept alone.</p>
@@ -251,7 +251,7 @@
         <div class="sec-head">
           <span class="kicker">Top terms</span>
           <h2 id="terms-title">Words that <em>move the score.</em></h2>
-          <p>The vocabulary terms with the largest weights in the shipped model, read from the file the evaluate stage wrote. Gold leans happiness, indigo leans sadness.</p>
+          <p>The vocabulary terms with the largest weights in the shipped model, read from the file the evaluate stage wrote. Yellow leans happiness, blue leans sadness.</p>
         </div>
         <div class="terms-grid" id="terms-grid" hidden>
           <div class="panel terms-col terms-happy">
@@ -301,9 +301,9 @@
     <div class="wrap">
       <p class="foot-name">
         <svg class="mark" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" focusable="false">
-          <rect width="64" height="64" rx="14" fill="#251D49"/>
-          <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EFEDF9"/>
-          <circle cx="51.5" cy="45.5" r="5.5" fill="#FFB238"/>
+          <rect width="64" height="64" rx="14" fill="#0F1F38"/>
+          <path d="M12 13 H44 V22.5 L25.5 41.5 H44 V51 H12 V41.5 L30.5 22.5 H12 Z" fill="#EAF0F9"/>
+          <circle cx="51.5" cy="45.5" r="5.5" fill="#FFD93D"/>
         </svg>
         <span class="wordmark">Syed Zulqarnain Hassan<span class="dot">.</span></span>
       </p>

@@ -1,28 +1,28 @@
 /* tweet-emotion-pipeline demo page: design tokens, layout, and components. */
 
 :root {
-  /* Color — the "dusk & sun" palette, mapped to the task itself: sun gold for happiness,
-     dusk indigo for sadness. This project deliberately does not use the
-     zulqarnainhassan.com brand colors. */
-  --cream: #F8F7FC;
+  /* Color — Z-identity bones (zulqarnainhassan.com navy/cream/blues, per Z Sep 2026:
+     project pages share the site identity for consistency) with this project's own
+     catchy accent mapped to the task: sunny yellow #FFD93D = happiness, blue = sadness. */
+  --cream: #FBF8F2;
   --panel: #FFFFFF;
-  --line: rgba(33, 26, 56, 0.10);
-  --ink: #211A38;
-  --muted: #625B7C;
-  --navy: #171130;
-  --deep: #0E0A20;
-  --band-2: #201743;
-  --line-d: #38305E;
-  --chip-d: #251D49;
-  --fog: #EFEDF9;
-  --mist: #ACA4CC;
-  --blue: #8FA0FF;
-  --blue-ink: #4348BE;
-  --coral: #FFB238;
-  --coral-ink: #A96D07;
-  /* Sun-ink is AA for large text only on the light ground, so small gold text
-     (chips, link hovers, counters, stage numbers) uses the deep sun at 5.5:1+. */
-  --coral-deep: #7E5205;
+  --line: rgba(19, 35, 59, 0.10);
+  --ink: #13233B;
+  --muted: #5B6B80;
+  --navy: #0A1628;
+  --deep: #070E1C;
+  --band-2: #0D1B33;
+  --line-d: #1E3355;
+  --chip-d: #0F1F38;
+  --fog: #EAF0F9;
+  --mist: #A2B4CE;
+  --blue: #3B96FF;
+  --blue-ink: #1560D6;
+  --coral: #FFD93D;
+  --coral-ink: #A97B00;
+  /* Yellow-ink is AA for large text only on cream, so small yellow text
+     (chips, link hovers, counters, stage numbers) uses the deep yellow at 5.5:1+. */
+  --coral-deep: #7E5B00;
 
   /* Type */
   --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
@@ -159,7 +159,7 @@ h1 {
   max-width: 20ch;
 }
 
-/* The payoff phrase: Fraunces italic with a gold rule painted on the inline box,
+/* The payoff phrase: Fraunces italic with a yellow rule painted on the inline box,
    0.05em thick, just under the baseline. It survives line wraps at 375 px. */
 h1 em {
   font-family: var(--serif);
@@ -223,7 +223,7 @@ h3 {
   line-height: 1.5;
   letter-spacing: 0;
   text-transform: none;
-  background: rgba(255, 178, 56, 0.16);
+  background: rgba(255, 217, 61, 0.18);
   color: var(--coral-deep);
   vertical-align: baseline;
 }
@@ -279,7 +279,7 @@ h3 {
 
 .hero {
   padding: clamp(20px, 3vw, 28px) 0 clamp(40px, 6vw, 72px);
-  background: radial-gradient(900px 420px at 85% -20%, rgba(143, 160, 255, 0.15), transparent 60%),
+  background: radial-gradient(900px 420px at 85% -20%, rgba(59, 150, 255, 0.16), transparent 60%),
     linear-gradient(180deg, var(--navy), var(--deep));
   border-bottom: 1px solid var(--line-d);
 }
@@ -829,7 +829,7 @@ textarea[aria-invalid="true"] {
   bottom: 0;
   left: 50%;
   width: 1px;
-  background: rgba(33, 26, 56, 0.28);
+  background: rgba(19, 35, 59, 0.28);
 }
 
 .why-fill {
@@ -944,7 +944,7 @@ textarea[aria-invalid="true"] {
   left: -23px;
   width: 23px;
   height: 1px;
-  background: rgba(33, 26, 56, 0.28);
+  background: rgba(19, 35, 59, 0.28);
 }
 
 .stage-name {
